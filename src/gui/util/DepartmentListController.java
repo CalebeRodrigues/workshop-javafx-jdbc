@@ -1,0 +1,15 @@
+package gui.util;
+
+import java.net.URL;
+import java.util.ResourceBundle;
+
+import javafx.fxml.Initializable;
+
+public class DepartmentListController implements Initializable {
+
+	@Override
+	public void initialize(URL url, ResourceBundle rb) {
+			
+	}
+
+}
