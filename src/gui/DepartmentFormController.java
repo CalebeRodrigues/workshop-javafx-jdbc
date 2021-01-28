@@ -3,6 +3,7 @@ package gui;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import gui.util.Constraints;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -37,10 +38,12 @@ public class DepartmentFormController implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-
-
+		initializeNodes();
 	}
 
-
+	private void initializeNodes () {
+		Constraints.setTextFieldInteger(txtId);
+		Constraints.setTextFieldMaxLength(txtName, 30);
+	}
 	
 }
