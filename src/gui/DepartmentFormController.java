@@ -24,10 +24,23 @@ public class DepartmentFormController implements Initializable {
 	private Button btnCancel;
 	
 	
+	@FXML
+	public void onBtnSaveAction () {
+		System.out.println("onBtnSaveAction()");
+		System.out.println(txtName.getText());
+	}
+	
+	@FXML
+	public void onBtnCancelAction () {
+		System.out.println("onBtnCancelAction()");
+	}
+	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 
 
 	}
 
+
+	
 }
