@@ -7,8 +7,10 @@ import java.util.ResourceBundle;
 
 import application.Main;
 import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -42,8 +44,9 @@ public class DepartmentListController implements Initializable {
 	private Button btnNew;
 	
 	@FXML
-	public void onBtnNewAction () {
-		System.out.println("Click button new!");
+	public void onBtnNewAction (ActionEvent e) {
+		Stage parentStage = Utils.currentStage(e);
+		createDialogForm("/gui/DepartmentForm.fxml", parentStage);
 	}
 	
 	public void setDepartmentService (DepartmentService service) {
