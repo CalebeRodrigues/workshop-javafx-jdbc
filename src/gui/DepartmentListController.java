@@ -2,10 +2,13 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.channels.IllegalSelectorException;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
+import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
@@ -19,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -45,6 +49,9 @@ public class DepartmentListController implements Initializable, DataChangeListen
 
 	@FXML
 	private TableColumn<Department, Department> tableColumnEDIT;
+	
+	@FXML
+	private TableColumn<Department, Department> tableColumnREMOVE;
 
 	@FXML
 	private Button btnNew;
@@ -150,5 +157,22 @@ public class DepartmentListController implements Initializable, DataChangeListen
 				button.setOnAction(event -> removeEntity(obj));
 			}
 		});
+	}
+
+	private void removeEntity(Department obj) {
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
+		
+		if (result.get() == ButtonType.OK) {
+			if(service == null) {
+				throw new IllegalStateException("Service was null");
+			}
+			
+			try {
+				service.remove(obj);
+			}
+			catch (DbIntegrityException e) {
+				Alerts.showAlert("Erro removing object", null, e.getMessage(), AlertType.ERROR);
+			}
+		}
 	}
 }
