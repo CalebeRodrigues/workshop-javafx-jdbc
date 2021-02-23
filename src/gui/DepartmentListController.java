@@ -2,7 +2,6 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.channels.IllegalSelectorException;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -92,6 +91,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 		tableViewDepartment.setItems(obsList);
 
 		initEditButtons();
+		initRemoveButtons();
 	}
 
 	public void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
@@ -169,6 +169,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			
 			try {
 				service.remove(obj);
+				updateTableView();
 			}
 			catch (DbIntegrityException e) {
 				Alerts.showAlert("Erro removing object", null, e.getMessage(), AlertType.ERROR);
