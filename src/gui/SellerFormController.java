@@ -15,14 +15,18 @@ import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.entities.Department;
 import model.entities.Seller;
 import model.exceptions.ValidationException;
 import model.services.DepartmentService;
@@ -47,6 +51,9 @@ public class SellerFormController implements Initializable {
 	private TextField txtBaseSalary;
 	
 	@FXML
+	private ComboBox<Department> comboBoxDepartment;
+	
+	@FXML
 	private Label labelErroName;
 	
 	@FXML
@@ -66,8 +73,12 @@ public class SellerFormController implements Initializable {
 	
 	
 	private Seller entity;
+	
 	private SellerService service;
+	
 	private DepartmentService departmentService;
+	
+	private ObservableList<Department> obsList;
 	
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
@@ -167,6 +178,16 @@ public class SellerFormController implements Initializable {
 		if(entity.getBirthDate() != null) dpBirthDate.setValue(LocalDate.ofInstant(entity.getBirthDate().toInstant(), ZoneId.systemDefault()));
 		Locale.setDefault(Locale.US);
 		txtBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
+	}
+	
+	public void loadAssociatedObjects () {
+		if (departmentService == null) {
+			throw new IllegalStateException("DepartmentService was null");
+		}
+		
+		List<Department> list = departmentService.findAll();
+		obsList = FXCollections.observableArrayList(list);
+		comboBoxDepartment.setItems(obsList);
 	}
 	
 	private void setErrorMessages (Map<String, String> errors) {
